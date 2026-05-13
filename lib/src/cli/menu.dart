@@ -9,6 +9,15 @@ import '../domain/cart_technique.dart';
 import '../domain/order_address.dart';
 import '../domain/order_information.dart';
 import '../domain/order.dart';
+import 'package:sqlite3/sqlite3.dart';
+import '../data/repositories/account_repository.dart';
+import '../data/repositories/cart_repository.dart';
+import '../data/repositories/cart_technique_repository.dart';
+import '../data/repositories/order_address_repository.dart';
+import '../data/repositories/order_information_repository.dart';
+import '../data/repositories/order_repository.dart';
+import '../data/repositories/role_repository.dart';
+import '../data/repositories/technique_repository.dart';
 
 void runMenu(StoreDatabase db) {
   while (true) {
@@ -106,12 +115,13 @@ DateTime _readDateTime(String label) {
 }
 
 void _roleMenu(StoreDatabase db) {
+  final repo = RoleRepository(db.sqlite);
   stdout.writeln('1-Список, 2-Добавить, 3-Удалить');
   final c = stdin.readLineSync()?.trim();
   if (c == '1') {
-    for (var r in db.getAllRoles()) stdout.writeln(r);
+    for (var r in repo.getAllRoles()) stdout.writeln(r);
   } else if (c == '2') {
-    db.insertRole(
+    repo.insertRole(
       Role(
         id: _readValidString('id: '),
         name: _readValidString('название (Admin/User): '),
@@ -119,17 +129,18 @@ void _roleMenu(StoreDatabase db) {
     );
     stdout.writeln('Сохранено.');
   } else if (c == '3') {
-    db.deleteRole(_readValidString('id для удаления: '));
+    repo.deleteRole(_readValidString('id для удаления: '));
   }
 }
 
 void _accountMenu(StoreDatabase db) {
+  final repo = AccountRepository(db.sqlite);
   stdout.writeln('1-Список, 2-Добавить, 3-Удалить');
   final c = stdin.readLineSync()?.trim();
   if (c == '1') {
-    for (var a in db.getAllAccounts()) stdout.writeln(a);
+    for (var a in repo.getAllAccounts()) stdout.writeln(a);
   } else if (c == '2') {
-    db.insertAccount(
+    repo.insertAccount(
       Account(
         id: _readValidString('id: '),
         login: _readValidString('логин: '),
@@ -140,17 +151,18 @@ void _accountMenu(StoreDatabase db) {
     );
     stdout.writeln('Сохранено.');
   } else if (c == '3') {
-    db.deleteAccount(_readValidString('id для удаления: '));
+    repo.deleteAccount(_readValidString('id для удаления: '));
   }
 }
 
 void _techniqueMenu(StoreDatabase db) {
+  final repo = TechniqueRepository(db.sqlite);
   stdout.writeln('1-Список, 2-Добавить, 3-Удалить');
   final c = stdin.readLineSync()?.trim();
   if (c == '1') {
-    for (var t in db.getAllTechniques()) stdout.writeln(t);
+    for (var t in repo.getAllTechniques()) stdout.writeln(t);
   } else if (c == '2') {
-    db.insertTechnique(
+    repo.insertTechnique(
       Technique(
         id: _readValidString('id: '),
         company: _readValidString('компания: '),
@@ -163,17 +175,18 @@ void _techniqueMenu(StoreDatabase db) {
     );
     stdout.writeln('Сохранено.');
   } else if (c == '3') {
-    db.deleteTechnique(_readValidString('id для удаления: '));
+    repo.deleteTechnique(_readValidString('id для удаления: '));
   }
 }
 
 void _cartMenu(StoreDatabase db) {
+  final repo = CartRepository(db.sqlite);
   stdout.writeln('1-Список, 2-Добавить, 3-Удалить');
   final c = stdin.readLineSync()?.trim();
   if (c == '1') {
-    for (var cart in db.getAllCarts()) stdout.writeln(cart);
+    for (var cart in repo.getAllCarts()) stdout.writeln(cart);
   } else if (c == '2') {
-    db.insertCart(
+    repo.insertCart(
       Cart(
         id: _readValidString('id корзины: '),
         accountId: _readValidString('id пользователя: '),
@@ -181,17 +194,18 @@ void _cartMenu(StoreDatabase db) {
     );
     stdout.writeln('Сохранено.');
   } else if (c == '3') {
-    db.deleteCart(_readValidString('id для удаления: '));
+    repo.deleteCart(_readValidString('id для удаления: '));
   }
 }
 
 void _cartTechniqueMenu(StoreDatabase db) {
+  final repo = CartTechniqueRepository(db.sqlite);
   stdout.writeln('1-Список, 2-Добавить, 3-Удалить');
   final c = stdin.readLineSync()?.trim();
   if (c == '1') {
-    for (var ct in db.getAllCartTechniques()) stdout.writeln(ct);
+    for (var ct in repo.getAllCartTechniques()) stdout.writeln(ct);
   } else if (c == '2') {
-    db.insertCartTechnique(
+    repo.insertCartTechnique(
       CartTechnique(
         id: _readValidString('id связи: '),
         cartId: _readValidString('id корзины: '),
@@ -200,17 +214,18 @@ void _cartTechniqueMenu(StoreDatabase db) {
     );
     stdout.writeln('Сохранено.');
   } else if (c == '3') {
-    db.deleteCartTechnique(_readValidString('id для удаления: '));
+    repo.deleteCartTechnique(_readValidString('id для удаления: '));
   }
 }
 
 void _addressMenu(StoreDatabase db) {
+  final repo = OrderAddressRepository(db.sqlite);
   stdout.writeln('1-Список, 2-Добавить, 3-Удалить');
   final c = stdin.readLineSync()?.trim();
   if (c == '1') {
-    for (var addr in db.getAllOrderAddresses()) stdout.writeln(addr);
+    for (var addr in repo.getAllOrderAddresses()) stdout.writeln(addr);
   } else if (c == '2') {
-    db.insertOrderAddress(
+    repo.insertOrderAddress(
       OrderAddress(
         id: _readValidString('id адреса: '),
         addressText: _readValidString('полный адрес: '),
@@ -218,17 +233,18 @@ void _addressMenu(StoreDatabase db) {
     );
     stdout.writeln('Сохранено.');
   } else if (c == '3') {
-    db.deleteOrderAddress(_readValidString('id для удаления: '));
+    repo.deleteOrderAddress(_readValidString('id для удаления: '));
   }
 }
 
 void _infoMenu(StoreDatabase db) {
+  final repo = OrderInformationRepository(db.sqlite);
   stdout.writeln('1-Список, 2-Добавить, 3-Удалить');
   final c = stdin.readLineSync()?.trim();
   if (c == '1') {
-    for (var info in db.getAllOrderInfos()) stdout.writeln(info);
+    for (var info in repo.getAllOrderInfos()) stdout.writeln(info);
   } else if (c == '2') {
-    db.insertOrderInfo(
+    repo.insertOrderInfo(
       OrderInformation(
         id: _readValidString('id инфо: '),
         orderType: _readValidString('тип заказа (Доставка/Самовывоз): '),
@@ -236,17 +252,18 @@ void _infoMenu(StoreDatabase db) {
     );
     stdout.writeln('Сохранено.');
   } else if (c == '3') {
-    db.deleteOrderInfo(_readValidString('id для удаления: '));
+    repo.deleteOrderInfo(_readValidString('id для удаления: '));
   }
 }
 
 void _orderMenu(StoreDatabase db) {
+  final repo = OrderRepository(db.sqlite);
   stdout.writeln('1-Список, 2-Добавить, 3-Удалить');
   final c = stdin.readLineSync()?.trim();
   if (c == '1') {
-    for (var o in db.getAllOrders()) stdout.writeln(o);
+    for (var o in repo.getAllOrders()) stdout.writeln(o);
   } else if (c == '2') {
-    db.insertOrder(
+    repo.insertOrder(
       Order(
         id: _readValidString('id заказа: '),
         hasCredit: _readBool('в кредит?'),
@@ -259,36 +276,43 @@ void _orderMenu(StoreDatabase db) {
     );
     stdout.writeln('Сохранено.');
   } else if (c == '3') {
-    db.deleteOrder(_readValidString('id для удаления: '));
+    repo.deleteOrder(_readValidString('id для удаления: '));
   }
 }
 
 void _printAllFromDb(StoreDatabase db) {
   stdout.writeln('\n--- ВСЕ ДАННЫЕ В БАЗЕ ---');
-
+  final role = RoleRepository(db.sqlite);
+  final acc = AccountRepository(db.sqlite);
+  final cart = CartRepository(db.sqlite);
+  final ct = CartTechniqueRepository(db.sqlite);
+  final oa = OrderAddressRepository(db.sqlite);
+  final oi = OrderInformationRepository(db.sqlite);
+  final order = OrderRepository(db.sqlite);
+  final technique = TechniqueRepository(db.sqlite);
   stdout.writeln('\n1. Роли:');
-  for (var i in db.getAllRoles()) stdout.writeln(i);
+  for (var i in role.getAllRoles()) stdout.writeln(i);
 
   stdout.writeln('\n2. Пользователи:');
-  for (var i in db.getAllAccounts()) stdout.writeln(i);
+  for (var i in acc.getAllAccounts()) stdout.writeln(i);
 
   stdout.writeln('\n3. Техника:');
-  for (var i in db.getAllTechniques()) stdout.writeln(i);
+  for (var i in technique.getAllTechniques()) stdout.writeln(i);
 
   stdout.writeln('\n4. Корзины:');
-  for (var i in db.getAllCarts()) stdout.writeln(i);
+  for (var i in cart.getAllCarts()) stdout.writeln(i);
 
   stdout.writeln('\n5. Товары в корзинах (Связи):');
-  for (var i in db.getAllCartTechniques()) stdout.writeln(i);
+  for (var i in ct.getAllCartTechniques()) stdout.writeln(i);
 
   stdout.writeln('\n6. Адреса:');
-  for (var i in db.getAllOrderAddresses()) stdout.writeln(i);
+  for (var i in oa.getAllOrderAddresses()) stdout.writeln(i);
 
   stdout.writeln('\n7. Информация о заказах:');
-  for (var i in db.getAllOrderInfos()) stdout.writeln(i);
+  for (var i in oi.getAllOrderInfos()) stdout.writeln(i);
 
   stdout.writeln('\n8. Заказы:');
-  for (var i in db.getAllOrders()) stdout.writeln(i);
+  for (var i in order.getAllOrders()) stdout.writeln(i);
 
   stdout.writeln('-------------------------\n');
 }
