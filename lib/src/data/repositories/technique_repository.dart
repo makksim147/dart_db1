@@ -32,4 +32,19 @@ class TechniqueRepository {
   void deleteTechnique(String id) {
     db.execute('DELETE FROM techniques WHERE id=?', [id]);
   }
+
+  void updateTechnique(Technique technique) {
+    db.execute(
+      'UPDATE techniques SET company = ?, country = ?, color = ?, type = ?, model = ?, price = ? WHERE id = ?',
+      [
+        technique.company,
+        technique.country,
+        technique.color,
+        technique.type,
+        technique.model,
+        technique.price,
+        technique.id,
+      ],
+    );
+  }
 }

@@ -22,4 +22,11 @@ class CartRepository {
   void deleteCart(String id) {
     db.execute('DELETE FROM carts WHERE id=?', [id]);
   }
+
+  void updateCart(Cart cart) {
+    db.execute('UPDATE carts SET accountId = ? WHERE id = ?', [
+      cart.accountId,
+      cart.id,
+    ]);
+  }
 }

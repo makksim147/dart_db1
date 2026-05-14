@@ -31,4 +31,19 @@ class OrderRepository {
   void deleteOrder(String id) {
     db.execute('DELETE FROM orders WHERE id=?', [id]);
   }
+
+  void updateOrder(Order order) {
+    db.execute(
+      'UPDATE orders SET hasCredit = ?, totalPrice = ?, cartId = ?, addressId = ?, infoId = ?, orderDate = ? WHERE id = ?',
+      [
+        order.hasCredit ? 1 : 0,
+        order.totalPrice,
+        order.cartId,
+        order.addressId,
+        order.infoId,
+        order.orderDate.toIso8601String(),
+        order.id,
+      ],
+    );
+  }
 }

@@ -22,4 +22,11 @@ class OrderAddressRepository {
   void deleteOrderAddress(String id) {
     db.execute('DELETE FROM order_addresses WHERE id=?', [id]);
   }
+
+  void updateOrderAddress(OrderAddress orderAddress) {
+    db.execute('UPDATE order_addresses SET addressText = ? WHERE id = ?', [
+      orderAddress.addressText,
+      orderAddress.id,
+    ]);
+  }
 }

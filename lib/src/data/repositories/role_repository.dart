@@ -22,4 +22,8 @@ class RoleRepository {
   void deleteRole(String id) {
     db.execute('DELETE FROM roles WHERE id=?', [id]);
   }
+
+  void updateRole(Role role) {
+    db.execute('UPDATE roles SET name = ? WHERE id = ?', [role.name, role.id]);
+  }
 }

@@ -22,4 +22,11 @@ class OrderInformationRepository {
   void deleteOrderInfo(String id) {
     db.execute('DELETE FROM order_informations WHERE id=?', [id]);
   }
+
+  void updateOrderInfo(OrderInformation orderInformation) {
+    db.execute('UPDATE order_informations SET orderType = ? WHERE id = ?', [
+      orderInformation.orderType,
+      orderInformation.id,
+    ]);
+  }
 }

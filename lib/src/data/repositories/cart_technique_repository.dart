@@ -22,4 +22,11 @@ class CartTechniqueRepository {
   void deleteCartTechnique(String id) {
     db.execute('DELETE FROM cart_techniques WHERE id=?', [id]);
   }
+
+  void updateCartTechnique(CartTechnique cart_technique) {
+    db.execute(
+      'UPDATE cart_techniques SET cartId = ?, techniqueId = ? WHERE id = ?',
+      [cart_technique.cartId, cart_technique.techniqueId, cart_technique.id],
+    );
+  }
 }

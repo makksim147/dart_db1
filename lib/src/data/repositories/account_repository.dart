@@ -30,4 +30,17 @@ class AccountRepository {
   void deleteAccount(String id) {
     db.execute('DELETE FROM accounts WHERE id=?', [id]);
   }
+
+  void updateAccount(Account account) {
+    db.execute(
+      'UPDATE accounts SET login = ?, email = ?, isActive = ?, roleId = ? WHERE id = ?',
+      [
+        account.login,
+        account.email,
+        account.isActive ? 1 : 0,
+        account.roleId,
+        account.id,
+      ],
+    );
+  }
 }
